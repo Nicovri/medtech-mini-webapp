@@ -1,5 +1,4 @@
-// ⚠️ Replace with your Hugging Face Space URL
-const BACKEND_URL = "https://nicovri-medtech-backend.hf.space";
+import { Client } from "https://cdn.jsdelivr.net/npm/@gradio/client@latest/dist/index.js";
 
 const fileInput = document.getElementById("fileInput");
 const processBtn = document.getElementById("processBtn");
@@ -9,31 +8,27 @@ const imagesRow = document.getElementById("imagesRow");
 const originalCard = document.getElementById("originalCard");
 const processedCard = document.getElementById("processedCard");
 
-let base64Image = null;
+let imageFile = null;
 
 // File selected → preview original
 fileInput.addEventListener("change", () => {
   const file = fileInput.files[0];
   if (!file) return;
 
-  const reader = new FileReader();
-  reader.onload = () => {
-    base64Image = reader.result;
-    originalImage.src = base64Image;
+  imageFile = file;
+  originalImage.src = URL.createObjectURL(file);
 
-    // Show original card + row, hide processed
-    originalCard.style.display = "block";
-    imagesRow.style.display = "flex";
-    originalImage.hidden = false;
-    processedCard.style.display = "none";
-    processedImage.hidden = true;
-  };
-  reader.readAsDataURL(file);
+  // Show original card + row, hide processed
+  originalCard.style.display = "block";
+  imagesRow.style.display = "flex";
+  originalImage.hidden = false;
+  processedCard.style.display = "none";
+  processedImage.hidden = true;
 });
 
 // Button click → process image
 processBtn.addEventListener("click", async () => {
-  if (!base64Image) {
+  if (!imageFile) {
     alert("Seleziona prima un'immagine.");
     return;
   }
@@ -44,15 +39,16 @@ processBtn.addEventListener("click", async () => {
   processBtn.textContent = "Elaborazione...";
 
   try {
-    const response = await fetch(`${BACKEND_URL}/predict`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ data: [base64Image, phase] }),
+    // Connect to your deployed Space
+    const client = await Client.connect("nicovri/medtech-backend"); // username/space_name
+
+    // Call the /predict function
+    const result = await client.predict("/predict", {
+      image: imageFile,
+      phase: phase,
     });
 
-    if (!response.ok) throw new Error("Errore dal server backend");
-
-    const result = await response.json();
+    // result.data[0] is the base64 string of the processed image
     processedImage.src = result.data[0];
 
     // Show processed card
