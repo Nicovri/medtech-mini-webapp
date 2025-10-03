@@ -35,30 +35,33 @@ processBtn.addEventListener("click", async () => {
 
   const phase = document.querySelector("input[name='phase']:checked").value;
 
+  // Show processing message with hourglass emoji
   processBtn.disabled = true;
-  processBtn.textContent = "Elaborazione...";
+  processBtn.textContent = "⏳ Elaborazione in corso...";
 
   try {
-    // Connect to your deployed Space
-    const client = await Client.connect("nicovri/medtech-backend"); // username/space_name
+    const client = await Client.connect("nicovri/medtech-backend");
 
-    // Call the /predict function
     const result = await client.predict("/predict", {
       image: imageFile,
       phase: phase,
     });
 
-    // result.data[0] is the base64 string of the processed image
-    const blob = result.data[0];
-    processedImage.src = URL.createObjectURL(blob);
-
-    // Show processed card
+    // Show the processed image
+    processedImage.src = result.data[0].url;
     processedCard.style.display = "block";
     processedImage.hidden = false;
+
+    // Update message to done with green check
+    processBtn.textContent = "✅ Elaborazione completa";
   } catch (err) {
     alert("Errore durante l'elaborazione: " + err.message);
-  } finally {
-    processBtn.disabled = false;
     processBtn.textContent = "Elabora immagine";
+  } finally {
+    // Re-enable button after a short delay if you want
+    setTimeout(() => {
+      processBtn.disabled = false;
+      processBtn.textContent = "Elabora immagine";
+    }, 1500);
   }
 });
