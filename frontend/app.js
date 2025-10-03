@@ -44,7 +44,7 @@ processBtn.addEventListener("click", async () => {
   processBtn.textContent = "Elaborazione...";
 
   try {
-    const response = await fetch(`${BACKEND_URL}/api/predict`, {
+    const response = await fetch(`${BACKEND_URL}/predict`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ data: [base64Image, phase] }),
