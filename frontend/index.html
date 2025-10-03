@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MedTech Mini WebApp</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header>
+      <h1>MedTech Mini WebApp</h1>
+      <p class="subtitle">
+        Carica un'immagine e simula la fase arteriosa o venosa
+      </p>
+    </header>
+
+    <!-- Controls Card -->
+    <div class="card">
+      <div class="row controls-row">
+        <input type="file" id="fileInput" accept="image/png, image/jpeg" />
+
+        <div class="phase-options">
+          <label
+            ><input type="radio" name="phase" value="arterial" checked />
+            Arteriosa</label
+          >
+          <label
+            ><input type="radio" name="phase" value="venous" /> Venosa</label
+          >
+        </div>
+
+        <button id="processBtn">Elabora immagine</button>
+      </div>
+    </div>
+
+    <!-- Images Row -->
+    <div class="row" id="imagesRow" style="display: none">
+      <div class="card image-card" id="originalCard" style="display: none">
+        <h2>Originale</h2>
+        <img id="originalImage" alt="Immagine originale" hidden />
+      </div>
+      <div class="card image-card" id="processedCard" style="display: none">
+        <h2>Elaborata</h2>
+        <img id="processedImage" alt="Immagine elaborata" hidden />
+      </div>
+    </div>
+
+    <footer>
+      <p>Demo per fini educativi — nessun uso clinico</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
