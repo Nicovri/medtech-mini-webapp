@@ -13,11 +13,12 @@
       </p>
     </header>
 
-    <!-- Controls Card -->
+    <!-- Controls Card: File upload, phase selection, submit button -->
     <div class="card">
       <div class="row controls-row">
         <input type="file" id="fileInput" accept="image/png, image/jpeg" />
 
+        <!-- Radio buttons for phase selection -->
         <div class="phase-options">
           <label
             ><input type="radio" name="phase" value="arterial" checked />
@@ -32,7 +33,7 @@
       </div>
     </div>
 
-    <!-- Images Row -->
+    <!-- Images Row: original and processed images -->
     <div class="row" id="imagesRow" style="display: none">
       <div class="card image-card" id="originalCard" style="display: none">
         <h2>Originale</h2>
@@ -48,6 +49,7 @@
       <p>Demo per fini educativi — nessun uso clinico</p>
     </footer>
 
+    <!-- Load frontend JS as module (necessary for import statements) -->
     <script type="module" src="app.js"></script>
   </body>
 </html>
