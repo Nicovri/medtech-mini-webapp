@@ -49,7 +49,8 @@ processBtn.addEventListener("click", async () => {
     });
 
     // result.data[0] is the base64 string of the processed image
-    processedImage.src = result.data[0];
+    const blob = result.data[0];
+    processedImage.src = URL.createObjectURL(blob);
 
     // Show processed card
     processedCard.style.display = "block";
